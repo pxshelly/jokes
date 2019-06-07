@@ -4,7 +4,7 @@ import axios from 'axios';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.cache = {};
+    this.cache = {89: 'A neutron walked into a bar and ordered a drink. Afterwards, the neutron asked for the bill, but the bartender said "For you? No charge."'};
     this.state = {
       joke: ''
     }
@@ -27,11 +27,13 @@ class App extends React.Component {
         .then(response => {
           console.log(this.cache);
           this.cache[jokeID] = response.data.value.joke;
-          this.setState({joke: response.data.value.joke})
+          this.setState({joke: response.data.value.joke});
         })
         .catch(error => {
-          console.log(error);
-        })
+          const cachedIds = Object.keys(this.cache);
+          const randomId = this.getRandomID(0, cachedIds.length - 1);
+          this.setState({joke: this.cache[cachedIds[randomId]]});
+        });
     }
   }
 
