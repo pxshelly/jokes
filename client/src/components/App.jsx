@@ -21,10 +21,13 @@ class App extends React.Component {
   componentDidMount() {
     this.getJoke();
   }
-
+  
   render() {
     return (
-      <div>{this.state.joke}</div>
+      <div>
+        <div>{this.state.joke}</div>
+        <button onClick={this.getJoke.bind(this)}>New joke</button>
+      </div>
     )
   }
 }
