@@ -11,6 +11,7 @@ class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.getRandomID = this.getRandomID.bind(this);
     this.getJoke = this.getJoke.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
   getRandomID(min = 0, max = 100) {
@@ -22,8 +23,9 @@ class App extends React.Component {
     if (this.cache.hasOwnProperty(jokeID)) {
       this.setState({joke: this.cache[jokeID]})
     } else {
-      axios.get(`https://jokes-api.herokuapp.com/api/joke`)
+      axios.get(`https://jokes-api.herokuapp.com/api/joke/${jokeID}`)
         .then(response => {
+          console.log(this.cache);
           this.cache[jokeID] = response.data.value.joke;
           this.setState({joke: response.data.value.joke})
         })
@@ -35,17 +37,24 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getJoke();
-    setInterval(this.getJoke, 10000);
+    // setInterval(this.getJoke, 10000);
   }
   
   handleClick() {
     this.getJoke();
   }
 
+  handleInput() {
+    const id = document.getElementById('jokeIDinput').value;
+    this.getJoke(id);
+  }
+
   render() {
     return (
       <div>
         <div>{this.state.joke}</div>
+        <input id='jokeIDinput' placeholder='Insert joke ID'/>
+        <button onClick={this.handleInput}>Get this joke</button>
         <button onClick={this.handleClick}>New joke</button>
       </div>
     )
