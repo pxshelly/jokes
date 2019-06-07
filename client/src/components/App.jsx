@@ -4,17 +4,21 @@ import axios from 'axios';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.cache = {89: 'A neutron walked into a bar and ordered a drink. Afterwards, the neutron asked for the bill, but the bartender said "For you? No charge."'};
+    this.cache = {
+      89: 'A neutron walked into a bar and ordered a drink. Afterwards, the neutron asked for the bill, but the bartender said "For you? No charge."'
+    };
+
     this.state = {
       joke: ''
     }
+
     this.handleClick = this.handleClick.bind(this);
     this.getRandomID = this.getRandomID.bind(this);
     this.getJoke = this.getJoke.bind(this);
     this.handleInput = this.handleInput.bind(this);
   }
 
-  getRandomID(min = 0, max = 100) {
+  getRandomID(min=0, max=100) {
     return Math.floor(Math.random() * (max - min + 1)) + min; 
   }
 
@@ -25,7 +29,6 @@ class App extends React.Component {
     } else {
       axios.get(`https://jokes-api.herokuapp.com/api/joke/${jokeID}`)
         .then(response => {
-          console.log(this.cache);
           this.cache[jokeID] = response.data.value.joke;
           this.setState({joke: response.data.value.joke});
         })
@@ -39,7 +42,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getJoke();
-    // setInterval(this.getJoke, 10000);
+    setInterval(this.getJoke, 10000);
   }
   
   handleClick() {
@@ -55,7 +58,7 @@ class App extends React.Component {
     return (
       <div>
         <div>{this.state.joke}</div>
-        <input id='jokeIDinput' placeholder='Insert joke ID'/>
+        <input className='input' id='jokeIDinput' placeholder='Insert joke ID'/>
         <button onClick={this.handleInput}>Get this joke</button>
         <button onClick={this.handleClick}>New joke</button>
       </div>
