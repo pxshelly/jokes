@@ -58,8 +58,10 @@ class App extends React.Component {
     return (
       <div>
         <div>{this.state.joke}</div>
-        <input className='input' id='jokeIDinput' placeholder='Insert joke ID'/>
+        <input placeholder='Insert joke ID'/>
         <button onClick={this.handleInput}>Get this joke</button>
+        <br/>
+        <br/>
         <button onClick={this.handleClick}>New joke</button>
       </div>
     )
